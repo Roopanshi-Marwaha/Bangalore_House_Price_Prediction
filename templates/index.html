@@ -26,7 +26,9 @@
                             <div class="col-md-6 form-group" style="text-align: center">
                                 <label for="location"><b>Select the Location:</b></label>
                                 <select class="selectpicker form-control" id="location" name="location" required>
-
+                                    {% for location in locations %}
+                                    <option value="{{location}}">{{location}}</option>
+                                    {% endfor %}
                                 </select>
                             </div>
 
