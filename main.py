@@ -2,6 +2,7 @@ import pandas as pd
 from flask import Flask, render_template, request
 import pickle
 import numpy as np
+import os
 
 app = Flask(__name__)
 data = pd.read_csv('Cleaned_data.csv')
@@ -29,4 +30,4 @@ def predict():
     return str(np.round(prediction,2))
 
 if __name__ == '__main__':
-    app.run(debug=True, port=5000)
+    app.run(host='0.0.0.0', port=int(os.environ.get('PORT', 5000)))
