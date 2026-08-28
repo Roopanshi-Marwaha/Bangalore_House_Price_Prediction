@@ -66,6 +66,41 @@
         </div>
     </div>
 
+    <script>
+        // we want to suppress the behavior ki submit pr click karke kisi aur html page pr jaye (jiska url we write in action)
+        // we just want to send the data to predict method and display the result on that span
+
+        function form_handler(event){
+            event.preventDefault();
+            //suppressed the default behavior of the form
+        }
+
+        function send_data(){
+            document.querySelector('form').addEventListener("submit",form_handler);
+            // using querySelector to select the form and uspr ek event listener banaya
+            // so whenever submit event is triggerred on that form form_handler function execute hoga
+
+            var fd=new FormData(document.querySelector('form'));
+            var xhr=new XMLHttpRequest();
+            xhr.open('POST','/predict',true);
+
+            document.getElementById("prediction").innerHTML="Wait Predicting Price!....";
+
+            xhr.onreadystatechange=function(){
+                if(xhr.readyState==XMLHttpRequest.DONE){
+                    document.getElementById('prediction').innerHTML="Prediction: ₹"+xhr.responseText;
+                    // xhr.readyState ek number hota hai jo batata hai ki tumhara XMLHttpRequest kis stage pe hai
+                    // 0→UNSENT, 1→OPENED, 2→HEADERS_RECEIVED, 3→LOADING, 4→DONE
+                    // xhr.readyState==4 means the request is complete (DONE)
+                    // ab response mil chuka hai server se, so update the span with the prediction
+                }
+            };
+            xhr.onload=function(){};
+            // xhr.onload = function(){}; ka matlab hai: jab request successfully complete ho jaaye, tab yeh function run karo. Abhi is function ke andar kuch bhi nahi likha (empty body), isliye yeh sirf ek placeholder hai — kaam karega, but kuch dikhega nahi.
+            xhr.send(fd); //send the form data
+        }
+    </script>
+
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
